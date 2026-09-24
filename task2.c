@@ -14,21 +14,49 @@ int main() {
     while (1) {
         printf("Enter the temperature: ");
 
-        if (scanf("%lf", &temperature) == 1) {
-            break;
+        if (scanf("%lf", &temperature) != 1) {
+            printf("Invalid input. Please enter a number.\n");
+            while (getchar() != '\n');
+            continue;
         }
 
-        printf("Invalid input. Please enter a number.\n");
-        while (getchar() != '\n');
+        int next = getchar();
+
+        // Skips spaces and tabs after the number
+        while (next == ' ' || next == '\t') {
+            next = getchar();
+        }
+
+        // Makes sure nothing except spaces came after the number
+        if (next != '\n') {
+            printf("Invalid input. Please enter a number.\n");
+            while (getchar() != '\n');
+            continue;
+        }
+
+        break;
     }
 
     do {
         printf("Enter the original scale (C, F, or K): ");
         scanf(" %c", &originalScale);
 
-        if (originalScale != 'C' && originalScale != 'F' && originalScale != 'K') {
+        int next = getchar();
+
+        // Skips spaces and tabs after the scale
+        while (next == ' ' || next == '\t') {
+            next = getchar();
+        }
+
+        // Checks that the scale is valid and nothing else was entered
+        if ((originalScale != 'C' && originalScale != 'F' && originalScale != 'K') || next != '\n') {
             printf("Invalid scale. Please enter C, F, or K.\n");
-            while (getchar() != '\n');
+
+            if (next != '\n') {
+                while (getchar() != '\n');
+            }
+
+            originalScale = 'X';
         }
 
     } while (originalScale != 'C' && originalScale != 'F' && originalScale != 'K');
@@ -37,9 +65,22 @@ int main() {
         printf("Enter the scale to convert to (C, F, or K): ");
         scanf(" %c", &targetScale);
 
-        if (targetScale != 'C' && targetScale != 'F' && targetScale != 'K') {
+        int next = getchar();
+
+        // Skips spaces and tabs after the scale
+        while (next == ' ' || next == '\t') {
+            next = getchar();
+        }
+
+        // Checks that the scale is valid and nothing else was entered
+        if ((targetScale != 'C' && targetScale != 'F' && targetScale != 'K') || next != '\n') {
             printf("Invalid scale. Please enter C, F, or K.\n");
-            while (getchar() != '\n');
+
+            if (next != '\n') {
+                while (getchar() != '\n');
+            }
+
+            targetScale = 'X';
         }
 
     } while (targetScale != 'C' && targetScale != 'F' && targetScale != 'K');
@@ -86,6 +127,7 @@ int main() {
         advisory = "Stay indoors!";
     }
 
+    // Prints final 3 messages
     printf("Converted temperature: %.2f %c\n", convertedTemp, targetScale);
     printf("Temperature category: %s\n", tempCat);
     printf("Weather advisory: %s\n", advisory);

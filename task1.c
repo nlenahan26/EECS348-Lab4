@@ -15,6 +15,20 @@ int main() {
             continue;
         }
 
+        int next = getchar();
+
+        // Skips spaces and tabs after the number
+        while (next == ' ' || next == '\t') {
+            next = getchar();
+        }
+
+        // Makes sure nothing except spaces or tabs came after the integer
+        if (next != '\n') {
+            printf("Invalid input.\n");
+            while (getchar() != '\n');
+            continue;
+        }
+
         // Stops if score is 1
         if (score == 1) {
             break;
